@@ -1,0 +1,73 @@
+<%- include ../partials/header.ejs %>
+<%- include ../partials/main-nav.ejs %>
+
+
+
+<!--Main Content-->
+<main class="container">
+    <div class="row">
+        <div class="offset-md-1 col-md-10">
+            <h1 style="color: saddlebrown; font-family:cursive;"><%= title%></h1>
+             <% if(typeof displayName == 'string' && displayName) { %>
+             <a href="/book-list/add" class="btn btn-primary" role="button">
+            <i class="fas fa-plus-circle"></i> Add a Book
+            </a>
+            <% } %>
+            <br><br>
+            <table class="table table-bordered table-striped table-hover" style="background-color: burlywood;">
+                <!--Header Row-->
+                <tr class="d-flex text-centre">
+                <% if(typeof displayName == 'string' && displayName) { %>
+                    <th class="col-2" style="text-align: center; background-color: saddlebrown; color: snow;">Title</th>
+                    <th class="col-2" style="text-align: center; background-color: saddlebrown; color: snow;">Author</th>
+                    <th class="col-1" style="text-align: center; background-color: saddlebrown; color: snow;">Year</th>
+                    <th class="col-4" style="text-align: center; background-color: saddlebrown; color: snow;">Description</th>
+                    <th class="col-1" style="text-align: center; background-color: saddlebrown; color: snow;">Price</th>
+                    <th class="col-1" style="text-align: center; background-color: saddlebrown; color: snow;">Edit</th> 
+                    <th class="col-1" style="text-align: center; background-color: saddlebrown; color: snow;">Delete</th> 
+                <% } else { %>
+                    <th class="col-2" style="text-align: center; background-color: saddlebrown; color: snow;">Title</th>
+                    <th class="col-2" style="text-align: center; background-color: saddlebrown; color: snow;">Author</th>
+                    <th class="col-1" style="text-align: center; background-color: saddlebrown; color: snow;">Year</th>
+                    <th class="col-6" style="text-align: center; background-color: saddlebrown; color: snow;">Description</th>
+                    <th class="col-1" style="text-align: center; background-color: saddlebrown; color: snow;">Price</th>
+                <% } %>
+                </tr>
+                
+                <!--Repeatable template row for loading data from mongodb-->
+
+                <% for(let count=0; count<BookList.length; count++) { %>
+                <tr class="d-flex">
+                <% if(typeof displayName == 'string' && displayName) { %>
+                    <td class="col-2" style="text-align: center;"><%= BookList[count].name %></td>
+                    <td class="col-2" style="text-align: center;"><%= BookList[count].author %></td>
+                    <td class="col-1" style="text-align: center;"><%= BookList[count].Published %></td>
+                    <td class="col-4"><%= BookList[count].description %></td>
+                    <td class="col-1" style="text-align: center;"><%= BookList[count].price %></td>
+                    <td class="col-1" style="text-align: center;">
+                        <a href="/book-list/edit/<%= BookList[count]._id %>" class="btn btn-primary btn-sm">
+                        <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    </td> 
+                    <td class="col-1" style="text-align: center;">
+                        <a href="/book-list/delete/<%= BookList[count]._id %>" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                 <% } else { %>
+                    <td class="col-2" style="text-align: center;"><%= BookList[count].name %></td>
+                    <td class="col-2" style="text-align: center;"><%= BookList[count].author %></td>
+                    <td class="col-1" style="text-align: center;"><%= BookList[count].Published %></td>
+                    <td class="col-6"><%= BookList[count].description %></td>
+                    <td class="col-1" style="text-align: center;"><%= BookList[count].price %></td>
+                <% } %>
+                </tr>
+                <% } %>
+            </table>
+
+        </div>
+    </div>
+</main>
+
+<%- include ../partials/bottom-nav.ejs %>
+<%- include ../partials/footer.ejs %>
