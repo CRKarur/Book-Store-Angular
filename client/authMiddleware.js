@@ -5,13 +5,13 @@ const PASSWORD = '123456';
 const mappings = 
 {
     get: ['api/orders','/orders'],
-    post: ['/api/book-list']
+    post: ['/api/book-list','/books','api/categories','/categories']
 }
 
 function requireAuth(method, url)
 {
     return (mappings[method.toLowerCase()] || [])
-    .find(p=> url.startWith(p)) !== undefined; 
+    .find(p=> url.startsWith(p)) !== undefined; 
 }
 
 module.exports = function(req,res,next){
@@ -32,16 +32,16 @@ module.exports = function(req,res,next){
  else if(requireAuth(req.method, req.url))
  {
     let token = req.headers["authorization"] || "";
-    if(token.startsWith('bearer<'))
+    if(token.startsWith("Bearer<"))
     {
-         token = token.substring(7, token, length -1);
+        token = token.substring(7, token.length -1);
      
         try
         {
          jwt.verify(token, APP_SECRET);
          next();
          return;
-        } catch (error) {}
+        } catch (err) {}
     }
     res.statusCode = 401;
     res.end();
